@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 1337;
 
-const { getAllHats } = require('./database.js');
+const { getAllHats, getHat } = require('./database.js');
 
 // Tema: hattaffär
 
@@ -19,6 +19,13 @@ app.get('/api/hats', (req, res) => {
 })
 
 // GET /api/hat?id=x
+app.get('/api/hat', (req, res) => {
+	console.log('GET /api/hat');
+	getHat(req.query.id, dataOrError => {
+		res.send(dataOrError)
+	})
+})
+
 // POST
 // PUT
 // DELETE
