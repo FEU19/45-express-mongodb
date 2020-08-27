@@ -43,20 +43,28 @@ function addHat(requestBody, callback) {
 	MongoClient.connect(
 		url,
 		{ useUnifiedTopology: true },
-		(error, client) => {
+		async (error, client) => {
 			if( error ) {
 				callback('"ERROR!! Could not connect"');
 				return;  // exit the callback function
 			}
 			const col = client.db(dbName).collection(collectionName);
-			col.insertOne(doc, (error, result) => {
-				if( error ) {
-					callback('"ERROR!! Query error"');
-				} else {
-					callback(result);
-				}
+			try {
+				// Wait for the resut of the query
+				// If it fails, it will throw an error
+				const result = await col.insertOne(doc);
+				callback({
+					result: result.result,
+					ops: result.ops
+				})
+
+			} catch(error) {
+				console.error('addHat error: ' + error.message);
+				callback('"ERROR!! Query error"');
+
+			} finally {
 				client.close();
-			})// insertOne - async
+			}
 		}// connect callback - async
 	)//connect - async
 }
