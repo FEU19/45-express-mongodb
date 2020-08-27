@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const port = 1337;
 
+const { getAllHats } = require('./database.js');
+
 // Tema: hattaffär
 
 // Middleware
@@ -10,7 +12,8 @@ const port = 1337;
 // GET /api/hats
 app.get('/api/hats', (req, res) => {
 	console.log('GET /api/hats');
-	res.send('GET /api/hats')
+	let data = getAllHats();
+	res.send(data)
 })
 
 // GET /api/hat?id=x
