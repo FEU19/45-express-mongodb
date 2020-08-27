@@ -11,7 +11,6 @@ function getAllHats(callback) {
 
 
 function getHat(id, callback) {
-	// console.log('getHat id=' + id);
 	get({ _id: new ObjectID(id) }, callback)
 }
 
@@ -26,9 +25,8 @@ function get(filter, callback) {
 			}
 			const col = client.db(dbName).collection(collectionName);
 			col.find(filter).toArray((error, docs) => {
-				console.log('find filter=', filter, error, docs);
+				// console.log('find filter=', filter, error, docs);
 				if( error ) {
-					// console.log('Query error: ', error.message);
 					callback('ERROR!! Query error');
 				} else {
 					callback(docs);
@@ -39,7 +37,30 @@ function get(filter, callback) {
 	)//connect - async
 }
 
-
+function addHat(requestBody, callback) {
+	console.log('addHat', requestBody);
+	const doc = { name: 'cap', color: 'red', price: 200 }
+	MongoClient.connect(
+		url,
+		{ useUnifiedTopology: true },
+		(error, client) => {
+			if( error ) {
+				callback('ERROR!! Could not connect');
+				return;  // exit the callback function
+			}
+			const col = client.db(dbName).collection(collectionName);
+			col.insertOne(doc, (error, result) => {
+				if( error ) {
+					callback('ERROR!! Query error');
+				} else {
+					callback(result);
+				}
+				client.close();
+			})// insertOne - async
+		}// connect callback - async
+	)//connect - async
+	callback('addHat')
+}
 
 
 
@@ -47,5 +68,5 @@ function get(filter, callback) {
 
 
 module.exports = {
-	getAllHats, getHat
+	getAllHats, getHat, addHat
 }

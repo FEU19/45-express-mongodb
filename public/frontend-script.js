@@ -13,7 +13,8 @@ window.addEventListener('load', () => {
     update();
 
     function update() {
-        url = `http://localhost:${inputPort.value}${inputUrl.value}?${querystring.value}`;
+		url = `http://localhost:${inputPort.value}${inputUrl.value}${querystring.value}`;
+        // url = `http://localhost:${inputPort.value}${inputUrl.value}?${querystring.value}`;
         destinationUrl.innerText = `${url} (${requestType})`;
     }
 
