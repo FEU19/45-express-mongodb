@@ -7,6 +7,7 @@ const { getAllHats } = require('./database.js');
 // Tema: hattaffär
 
 // Middleware
+app.use( express.static(__dirname + '/../public') )
 
 // Routes
 // GET /api/hats
