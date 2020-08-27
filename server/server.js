@@ -12,8 +12,9 @@ const { getAllHats } = require('./database.js');
 // GET /api/hats
 app.get('/api/hats', (req, res) => {
 	console.log('GET /api/hats');
-	let data = getAllHats();
-	res.send(data)
+	getAllHats(dataOrError => {
+		res.send(dataOrError)
+	});
 })
 
 // GET /api/hat?id=x
