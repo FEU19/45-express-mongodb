@@ -7,7 +7,7 @@ const { getAllHats, getHat, addHat } = require('./database.js');
 
 // Tema: hattaffär
 
-// Middleware
+// **** Middleware ****
 app.use( express.static(__dirname + '/../public') )
 app.use( (req, res, next) => {
 	console.log(`${req.method} ${req.url}`);
@@ -16,7 +16,7 @@ app.use( (req, res, next) => {
 app.use( bodyParser.urlencoded({ extended: true }) )
 app.use( bodyParser.json() )
 
-// Routes
+// **** Routes ****
 // GET /api/hats
 app.get('/api/hats', (req, res) => {
 	getAllHats(dataOrError => {
@@ -33,7 +33,6 @@ app.get('/api/hat', (req, res) => {
 
 // POST
 app.post('/api/hat?', (req, res) => {
-	console.log('hello post', req.body);
 	addHat(req.body, dataOrError => {
 		res.send(dataOrError)
 	})
@@ -42,8 +41,9 @@ app.post('/api/hat?', (req, res) => {
 // PUT
 // DELETE
 
-// (eventuellt felhantering)
+
+// **** (eventuellt felhantering) ****
 
 
-// Starta webbservern
+// ****Starta webbservern ****
 app.listen(port, () => console.log('Server is listening on port ' + port))

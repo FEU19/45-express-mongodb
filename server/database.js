@@ -20,14 +20,14 @@ function get(filter, callback) {
 		{ useUnifiedTopology: true },
 		(error, client) => {
 			if( error ) {
-				callback('ERROR!! Could not connect');
+				callback('"ERROR!! Could not connect"');
 				return;  // exit the callback function
 			}
 			const col = client.db(dbName).collection(collectionName);
 			col.find(filter).toArray((error, docs) => {
 				// console.log('find filter=', filter, error, docs);
 				if( error ) {
-					callback('ERROR!! Query error');
+					callback('"ERROR!! Query error"');
 				} else {
 					callback(docs);
 				}
@@ -38,20 +38,20 @@ function get(filter, callback) {
 }
 
 function addHat(requestBody, callback) {
-	console.log('addHat', requestBody);
-	const doc = { name: 'cap', color: 'red', price: 200 }
+	// console.log('addHat', requestBody);
+	const doc = requestBody
 	MongoClient.connect(
 		url,
 		{ useUnifiedTopology: true },
 		(error, client) => {
 			if( error ) {
-				callback('ERROR!! Could not connect');
+				callback('"ERROR!! Could not connect"');
 				return;  // exit the callback function
 			}
 			const col = client.db(dbName).collection(collectionName);
 			col.insertOne(doc, (error, result) => {
 				if( error ) {
-					callback('ERROR!! Query error');
+					callback('"ERROR!! Query error"');
 				} else {
 					callback(result);
 				}
@@ -59,7 +59,6 @@ function addHat(requestBody, callback) {
 			})// insertOne - async
 		}// connect callback - async
 	)//connect - async
-	callback('addHat')
 }
 
 
