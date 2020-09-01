@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const port = 1337;
 
-const { getAllHats, getHat, addHat } = require('./database.js');
+const { getAllHats, getHat, addHat, search } = require('./database.js');
 
 // Tema: hattaffär
 
@@ -41,6 +41,13 @@ app.post('/api/hat?', (req, res) => {
 // PUT
 // DELETE
 
+// search
+app.get('/api/search', (req, res) => {
+	console.log('Search route');
+	search(req.query, dataOrError => {
+		res.send(dataOrError)
+	})
+})
 
 // **** (eventuellt felhantering) ****
 

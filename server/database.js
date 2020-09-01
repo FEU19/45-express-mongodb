@@ -84,10 +84,44 @@ function addHat(requestBody, callback) {
 }
 
 
+function search(query, callback) {
+	const filter = {};
+	if( query.name ) {
+		filter.name = { "$regex": `.*${query.name}.*`};
+	}
+	if( query.color ) {
+		filter.color = query.color;
+	}
+	// { name: 'tophat', color: 'black' }
+
+	MongoClient.connect(
+		url,
+		{ useUnifiedTopology: true },
+		async (error, client) => {
+			if( error ) {
+				callback('"ERROR!! Could not connect"');
+				return;  // exit the callback function
+			}
+			const col = client.db(dbName).collection(collectionName);
+			try {
+				const cursor = await col.find(filter);
+				const array = await cursor.toArray()
+				callback(array);
+
+			} catch(error) {
+				console.log('Query error: ' + error.message);
+				callback('"ERROR!! Query error"');
+
+			} finally {
+				client.close();
+			}
+		}// connect callback - async
+	)//connect - async
+}
 
 
 
 
 module.exports = {
-	getAllHats, getHat, addHat
+	getAllHats, getHat, addHat, search
 }
